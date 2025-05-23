@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云南悠游慢旅 - 旅行规划表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c5d8a;
+            --secondary-color: #4a90b8;
+            --accent-color: #f39c12;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-color: #bdc3c7;
+            --bg-light: #f8f9fa;
+            --print-margin: 10mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #fff;
+            font-size: 11px;
+        }
+
+        .print-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: var(--print-margin);
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color), var(--accent-color));
+        }
+
+        .destination-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .trip-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 10px;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 8px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-item i {
+            color: var(--secondary-color);
+            margin-right: 6px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, var(--bg-light), #fff);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .itinerary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 9px;
+        }
+
+        .itinerary-table th,
+        .itinerary-table td {
+            border: 1px solid var(--border-color);
+            padding: 6px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .itinerary-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .day-header {
+            background: var(--secondary-color) !important;
+            color: white !important;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .time-col {
+            width: 15%;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .activity-col {
+            width: 30%;
+        }
+
+        .location-col {
+            width: 25%;
+            color: var(--text-light);
+        }
+
+        .details-col {
+            width: 30%;
+            font-size: 8px;
+        }
+
+        .transport-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .transport-card {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-light);
+        }
+
+        .transport-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            font-size: 11px;
+        }
+
+        .transport-details {
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .food-recommendations {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .food-item {
+            padding: 6px 8px;
+            background: #fff8e1;
+            border: 1px solid #ffd54f;
+            border-radius: 4px;
+            font-size: 9px;
+        }
+
+        .food-item strong {
+            color: var(--accent-color);
+        }
+
+        .emergency-info {
+            background: #ffebee;
+            border: 1px solid #e57373;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .emergency-info h4 {
+            color: #c62828;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .emergency-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 9px;
+        }
+
+        .tips-box {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tips-box h4 {
+            color: #2e7d32;
+            margin-bottom: 6px;
+            font-size: 11px;
+        }
+
+        .tips-list {
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .icon-text i {
+            width: 12px;
+            color: var(--secondary-color);
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 10px;
+            }
+
+            .print-container {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: var(--print-margin);
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .itinerary-table {
+                page-break-inside: avoid;
+            }
+
+            .print-button {
+                display: none !important;
+            }
+
+            @page {
+                margin: 0;
+                size: A4;
+            }
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(44, 93, 138, 0.3);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .weather-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 8px;
+            margin-left: 8px;
+        }
+
+        .activity-type {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 7px;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+
+        .type-food { background: #fff3e0; color: #f57c00; }
+        .type-sight { background: #e8f5e8; color: #388e3c; }
+        .type-transport { background: #e3f2fd; color: #1976d2; }
+        .type-hotel { background: #f3e5f5; color: #7b1fa2; }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">
+        <i class="fas fa-print"></i> 打印规划表
+    </button>
+
+    <div class="print-container">
+        <!-- 头部信息 -->
+        <div class="header">
+            <h1 class="destination-title">
+                <i class="fas fa-mountain"></i>
+                云南悠游慢旅
+                <i class="fas fa-camera"></i>
+            </h1>
+            <div class="trip-info">
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <strong>出行日期</strong><br>
+                    2025年6月4日-10日 (7天)
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-route"></i>
+                    <strong>旅行路线</strong><br>
+                    昆明→大理→丽江→昆明
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-sun"></i>
+                    <strong>季节特色</strong><br>
+                    初夏时节，花海盛开
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 1: 昆明 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 1 - 6月4日 昆明春城初体验
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">09:00-12:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-food">美食</span>
+                            昆明地道早餐探索
+                        </td>
+                        <td class="location-col">
+                            英凤烧饵块<br>
+                            洋芋巷<br>
+                            钱局街雪儿泡菜
+                        </td>
+                        <td class="details-col">
+                            推荐：甜咸酱加油条<br>
+                            烤五花肉、烧洋芋<br>
+                            晨溪豆花米线
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">12:00-14:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">游览</span>
+                            昆明老街漫步
+                        </td>
+                        <td class="location-col">老街正义坊</td>
+                        <td class="details-col">感受历史氛围，拍照打卡</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">14:00-17:30</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">观光</span>
+                            滇池风光 & 斗南花市
+                        </td>
+                        <td class="location-col">
+                            海埂旅游索道站<br>
+                            斗南花卉市场
+                        </td>
+                        <td class="details-col">
+                            滇池拍照，购买鲜花<br>
+                            品尝铜锅饭和小锅米线
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">20:00-22:12</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">交通</span>
+                            火车前往大理
+                        </td>
+                        <td class="location-col">
+                            昆明站→大理站
+                        </td>
+                        <td class="details-col">
+                            <strong>⚠️ 19:00前到达昆明站</strong><br>
+                            夜间火车，准备休息
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Day 2: 大理 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 2 - 6月5日 大理风花雪月
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">22:12-次日06:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">抵达</span>
+                            到达大理入住
+                        </td>
+                        <td class="location-col">大理站→酒店</td>
+                        <td class="details-col">
+                            <strong>避免坐出租车</strong><br>
+                            使用网约车前往酒店
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">06:00-09:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">观光</span>
+                            洱海日出 & 早餐
+                        </td>
+                        <td class="location-col">龙龛码头附近</td>
+                        <td class="details-col">
+                            推荐：金谷过桥米线<br>
+                            鸡汤米线、稀豆粉
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">09:00-17:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">骑行</span>
+                            洱海环游
+                        </td>
+                        <td class="location-col">洱海生态廊道</td>
+                        <td class="details-col">
+                            租小电驴骑行<br>
+                            注意续航和安全
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">18:00-21:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">夜游</span>
+                            大理古城探索
+                        </td>
+                        <td class="location-col">大理古城</td>
+                        <td class="details-col">
+                            杨记乳扇小吃<br>
+                            杜文秀元帅府篝火晚会20:00
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Day 3: 喜洲古镇 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 3 - 6月6日 喜洲古镇深度游
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">09:00-10:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">交通</span>
+                            前往喜洲古镇
+                        </td>
+                        <td class="location-col">酒店→S湾→廊桥→喜洲</td>
+                        <td class="details-col">
+                            推荐租车或小电驴<br>
+                            路线约30-40分钟
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">10:00-15:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-food">美食</span>
+                            喜洲美食巡礼
+                        </td>
+                        <td class="location-col">喜洲古镇各餐厅</td>
+                        <td class="details-col">
+                            聚喜乐野生菌火锅米线<br>
+                            张记薄荷炸排骨<br>
+                            酥香园喜洲粑粑
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">15:00-18:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">体验</span>
+                            扎染 & 古镇打卡
+                        </td>
+                        <td class="location-col">
+                            董金汉院<br>
+                            七站转角楼
+                        </td>
+                        <td class="details-col">
+                            扎染体验工艺<br>
+                            打卡墙拍照<br>
+                            标志性转角楼
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">18:00-20:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">返程</span>
+                            返回大理
+                        </td>
+                        <td class="location-col">喜洲→酒店</td>
+                        <td class="details-col">
+                            注意夜间骑行安全<br>
+                            观赏洱海日落
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="food-recommendations">
+                <div class="food-item">
+                    <strong>喜洲粑粑：</strong> 酥香园，外酥内软，甜咸两味
+                </div>
+                <div class="food-item">
+                    <strong>白族家常菜：</strong> 四方街美食店，地道口味
+                </div>
+                <div class="food-item">
+                    <strong>清炒水性杨花：</strong> 当地特色蔬菜，清香爽口
+                </div>
+                <div class="food-item">
+                    <strong>汽锅鸡：</strong> 张记老白族私房菜，原汁原味
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4-5: 丽江 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 4-5 - 6月7-8日 丽江古城韵味
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="day-header">
+                        <td colspan="4">Day 4 - 6月7日</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">上午</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">交通</span>
+                            大理→丽江
+                        </td>
+                        <td class="location-col">大理站→丽江站</td>
+                        <td class="details-col">
+                            火车或汽车2-3小时<br>
+                            <strong>提前购票！</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">下午</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-hotel">入住</span>
+                            酒店入住 & 古城初探
+                        </td>
+                        <td class="location-col">丽江古城</td>
+                        <td class="details-col">
+                            放下行李，开始逛古城<br>
+                            恰好有晚霞时间
+                        </td>
+                    </tr>
+                    <tr class="day-header">
+                        <td colspan="4">Day 5 - 6月8日</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">清晨</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">观景</span>
+                            日照金山
+                        </td>
+                        <td class="location-col">见山小院</td>
+                        <td class="details-col">
+                            早起观赏玉龙雪山<br>
+                            需要好天气配合
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">上午</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">古镇</span>
+                            白沙古镇
+                        </td>
+                        <td class="location-col">白沙古镇</td>
+                        <td class="details-col">
+                            屋顶咖啡店眺望雪山<br>
+                            原生态古镇体验
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">下午</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">古镇</span>
+                            束河古镇 & 青龙桥
+                        </td>
+                        <td class="location-col">束河古镇</td>
+                        <td class="details-col">
+                            比大研古城更安静<br>
+                            青龙桥标志打卡
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Day 6: 丽江深度 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 6 - 6月9日 雪山脚下秘境 & 返程昆明
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">09:00-12:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">市井</span>
+                            忠义市场 & 古城地标
+                        </td>
+                        <td class="location-col">
+                            忠义市场<br>
+                            大研花巷<br>
+                            大水车
+                        </td>
+                        <td class="details-col">
+                            体验当地人生活<br>
+                            丽江古城标志建筑<br>
+                            步行可达各景点
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">12:00-16:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-sight">秘境</span>
+                            玉湖村 & 龙女湖
+                        </td>
+                        <td class="location-col">玉湖村</td>
+                        <td class="details-col">
+                            雪山下石头村落<br>
+                            原始风貌摄影<br>
+                            车程约30-40分钟
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">晚上</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">返程</span>
+                            Y754火车返昆明
+                        </td>
+                        <td class="location-col">丽江站→昆明站</td>
+                        <td class="details-col">
+                            <strong>⚠️ 记得提前抢票！</strong><br>
+                            夕发朝至卧铺
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Day 7: 返程 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-day"></i>
+                Day 7 - 6月10日 昆明返程
+            </h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>活动</th>
+                        <th>地点</th>
+                        <th>详情备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">清晨</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">抵达</span>
+                            抵达昆明
+                        </td>
+                        <td class="location-col">昆明站</td>
+                        <td class="details-col">
+                            Y754早上抵达<br>
+                            准备前往机场
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">09:00/10:00</td>
+                        <td class="activity-col">
+                            <span class="activity-type type-transport">航班</span>
+                            乘机返程
+                        </td>
+                        <td class="location-col">昆明长水机场</td>
+                        <td class="details-col">
+                            <strong>⚠️ 时间紧张！</strong><br>
+                            提前确认火车到达时间<br>
+                            地铁约1小时到机场
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 交通信息 -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-route"></i>
+                重要交通信息
+            </h2>
+            <div class="transport-info">
+                <div class="transport-card">
+                    <h4><i class="fas fa-train"></i> 火车时刻</h4>
+                    <div class="transport-details">
+                        <div class="icon-text">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>昆明→大理：20:00-22:12</span>
+                        </div>
+                        <div class="icon-text">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>丽江→昆明：Y754夕发朝至</span>
+                        </div>
+                        <strong>📱 务必提前购票！</strong>
+                    </div>
+                </div>
+                <div class="transport-card">
+                    <h4><i class="fas fa-car"></i> 城际交通</h4>
+                    <div class="transport-details">
+                        <div class="icon-text">
+                            <i class="fas fa-clock"></i>
+                            <span>大理→丽江：2-3小时</span>
+                        </div>
